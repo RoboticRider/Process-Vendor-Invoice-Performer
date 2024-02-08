@@ -1,0 +1,352 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ACME_Extract_PDF_Data" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/intelligentocr" xmlns:p1="http://schemas.uipath.com/workflow/activities/ocr" xmlns:p2="http://schemas.uipath.com/workflow/activities/intelligentocr/extraction" xmlns:p3="http://schemas.uipath.com/workflow/activities/documentunderstanding-ml" xmlns:p4="http://schemas.uipath.com/workflow/activities/document-processing-contracts/results" xmlns:p5="http://schemas.uipath.com/workflow/activities/document-processing-contracts/dom" xmlns:p6="http://schemas.uipath.com/workflow/activities/document-processing-contracts/extraction" xmlns:p7="http://schemas.uipath.com/workflow/activities/document-processing-contracts/taxonomy" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:sd2="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_VendorName" Type="OutArgument(x:String)" />
+    <x:Property Name="out_InvoiceID" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Address" Type="OutArgument(x:String)" />
+    <x:Property Name="out_TaxID" Type="OutArgument(x:String)" />
+    <x:Property Name="out_City" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Country" Type="OutArgument(x:String)" />
+    <x:Property Name="out_TaxAmount" Type="OutArgument(x:String)" />
+    <x:Property Name="out_UntaxedAmount" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Date" Type="OutArgument(x:String)" />
+    <x:Property Name="out_TotalAmount" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Currency" Type="OutArgument(x:String)" />
+    <x:Property Name="in_FileName" Type="InArgument(x:String)" />
+    <x:Property Name="out_ItemDescription" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1790,1944</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ACME_Extract_PDF_Data_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>UiPath.DocumentProcessing.Contracts.Taxonomy</x:String>
+      <x:String>UiPath.IntelligentOCR.Activities.TaxonomyManagement</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>UiPath.IntelligentOCR.Activities.Digitization</x:String>
+      <x:String>UiPath.DocumentProcessing.Contracts.Dom</x:String>
+      <x:String>UiPath.Vision.OCR</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.OCR.Contracts</x:String>
+      <x:String>UiPath.OCR.Activities</x:String>
+      <x:String>UiPath.OCR.Contracts.Activities</x:String>
+      <x:String>UiPath.DocumentProcessing.Contracts.Results</x:String>
+      <x:String>UiPath.IntelligentOCR.Activities.DataExtraction</x:String>
+      <x:String>UiPath.DocumentProcessing.Contracts.DataExtraction</x:String>
+      <x:String>UiPath.DocumentUnderstanding.ML.Activities</x:String>
+      <x:String>UiPath.DocumentProcessing.Contracts</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.IntelligentOCR.Activities.ValidationStation</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.DocumentProcessing.Contracts</AssemblyReference>
+      <AssemblyReference>UiPath.IntelligentOCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.DocumentUnderstanding.ML.Activities</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.MetadataLoadContext</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Vision.Core</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Contracts</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>Microsoft.Win32.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ACME_Extract_PDF_Data" sap:VirtualizedContainerService.HintSize="541,1879" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="p7:DocumentTaxonomy" Name="Tax" />
+      <Variable x:TypeArguments="x:String" Name="DocText" />
+      <Variable x:TypeArguments="p5:Document" Name="DOM" />
+      <Variable x:TypeArguments="p4:ExtractionResult" Name="ExtractedResults" />
+      <Variable x:TypeArguments="sd2:DataSet" Name="Dataset" />
+      <Variable x:TypeArguments="p4:ExtractionResult" Name="ValExResults" />
+      <Variable x:TypeArguments="sd2:DataTable" Name="Item" />
+      <Variable x:TypeArguments="x:String" Name="Text" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <p:LoadTaxonomy DisplayName="Load Taxonomy" sap:VirtualizedContainerService.HintSize="479,104" sap2010:WorkflowViewState.IdRef="LoadTaxonomy_1" Taxonomy="[Tax]" />
+    <p:DigitizeDocument ApplyOcrMigrated="True" ApplyOcrOnPdf="Auto" DegreeOfParallelism="-1" DetectCheckboxes="True" DisplayName="Digitize Document" DocumentObjectModel="[DOM]" DocumentPath="[in_FileName]" DocumentText="[DocText]" ForceApplyOCR="False" sap:VirtualizedContainerService.HintSize="479,297" sap2010:WorkflowViewState.IdRef="DigitizeDocument_1">
+      <p:DigitizeDocument.OCREngine>
+        <ActivityFunc x:TypeArguments="sd:Image, x:String, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))" Argument1="{x:Reference __ReferenceID0}" Argument2="{x:Reference __ReferenceID1}">
+          <p1:UiPathDocumentOCR Endpoint="{x:Null}" Output="{x:Null}" Text="{x:Null}" UseLocalServer="{x:Null}" ApiKey="NPvGjusPY+4G+SGO5ba8eDCXz16FZl5fhvXfwGelsgTln0SETg6m/udLsG5Lq/V7ldPEfZFVJnrNK+wKtQ9wow==" ComputeSkewAngle="False" DisplayName="UiPath Document OCR" ExtractWords="True" sap:VirtualizedContainerService.HintSize="312,25" sap2010:WorkflowViewState.IdRef="UiPathDocumentOCR_1" Language="auto" NoopExecution="False" Profile="None" Scale="1" Timeout="100000">
+            <p1:UiPathDocumentOCR.Image>
+              <InArgument x:TypeArguments="sd:Image">
+                <DelegateArgumentValue x:TypeArguments="sd:Image" sap2010:WorkflowViewState.IdRef="DelegateArgumentValue`1_1">
+                  <DelegateInArgument x:TypeArguments="sd:Image" x:Name="__ReferenceID0" Name="Image" />
+                </DelegateArgumentValue>
+              </InArgument>
+            </p1:UiPathDocumentOCR.Image>
+            <p1:UiPathDocumentOCR.PredictionId>
+              <InArgument x:TypeArguments="x:String">
+                <DelegateArgumentValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="DelegateArgumentValue`1_2">
+                  <DelegateInArgument x:TypeArguments="x:String" x:Name="__ReferenceID1" Name="PredictionId" />
+                </DelegateArgumentValue>
+              </InArgument>
+            </p1:UiPathDocumentOCR.PredictionId>
+          </p1:UiPathDocumentOCR>
+        </ActivityFunc>
+      </p:DigitizeDocument.OCREngine>
+    </p:DigitizeDocument>
+    <p2:DataExtractionScope ClassificationResult="{x:Null}" ApplyGenerativeValidation="False" DisplayName="Data Extraction Scope" DocumentObjectModel="[DOM]" DocumentPath="[in_FileName]" DocumentText="[DocText]" DocumentTypeId="ACMESystem1.FinanceDepartment.Invoices" ExtractionResult="[ExtractedResults]" FormatValuesIfPossible="True" GenerativeValidationConfidenceThreshold="99" sap:VirtualizedContainerService.HintSize="479,398" sap2010:WorkflowViewState.IdRef="DataExtractionScope_1" Taxonomy="[Tax]" TaxonomyConfiguration="{}{&quot;TaxonomyMappings&quot;:{&quot;UI095760a3e4014aecacf91cf9e8254c5b&quot;:{&quot;DocumentTypeMappings&quot;:{&quot;ACMESystem1.FinanceDepartment.Invoices&quot;:{&quot;FieldMappings&quot;:{&quot;ACMESystem1.FinanceDepartment.Invoices.VendorName&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.VendorName&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.InvoiceID&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.InvoiceID&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.Date&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.Date&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.Address&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.Address&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.TaxID&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.TaxID&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.City&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.City&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.Country&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.Country&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.ItemDescription&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.ItemDescription&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.TotalAmount&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.TotalAmount&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.TaxAmount&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.TaxAmount&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.UntaxedAmount&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.UntaxedAmount&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true},&quot;ACMESystem1.FinanceDepartment.Invoices.Currency&quot;:{&quot;OriginalTaxonomyFieldId&quot;:&quot;ACMESystem1.FinanceDepartment.Invoices.Currency&quot;,&quot;ExtractorTaxonomyFieldId&quot;:null,&quot;ShouldExtract&quot;:true}},&quot;ExtractorDocumentTypeId&quot;:null}}}},&quot;ExtractorMinimumConfidence&quot;:{&quot;UI095760a3e4014aecacf91cf9e8254c5b&quot;:&quot;0&quot;},&quot;ExtractorsAliases&quot;:{},&quot;DocumentTypeOptionsByExtractor&quot;:{&quot;UI095760a3e4014aecacf91cf9e8254c5b&quot;:[]}}">
+      <p2:DataExtractionScope.Extractors>
+        <p3:GenerativeExtractor DisplayName="Generative Extractor" sap:VirtualizedContainerService.HintSize="234,76" sap2010:WorkflowViewState.IdRef="GenerativeExtractor_1" PersistenceId="UI095760a3e4014aecacf91cf9e8254c5b" Prompt="{}{&quot;ACMESystem1.FinanceDepartment.Invoices.VendorName&quot;:&quot;Extract the Vendor from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.InvoiceID&quot;:&quot;Extract the Invoice ID from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.Date&quot;:&quot;Extract the Date from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.Address&quot;:&quot;Extract the Address from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.TaxID&quot;:&quot;Extract the Tax ID from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.City&quot;:&quot;Extract the City from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.Country&quot;:&quot;Extract the Country from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.ItemDescription&quot;:&quot;Extract the Item Description from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.TotalAmount&quot;:&quot;Extract the Total from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.TaxAmount&quot;:&quot;Extract the Tax from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.UntaxedAmount&quot;:&quot;Extract the Subtotal from the Invoice&quot;,&quot;ACMESystem1.FinanceDepartment.Invoices.Currency&quot;:&quot;Extract the Currency from the Invoice&quot;}" RetryOnFailure="True" Timeout="3600000">
+          <p3:GenerativeExtractor.DocumentBounds>
+            <InArgument x:TypeArguments="p4:ResultsDocumentBounds">
+              <DelegateArgumentValue x:TypeArguments="p4:ResultsDocumentBounds">
+                <DelegateInArgument x:TypeArguments="p4:ResultsDocumentBounds" Name="DocumentBounds" />
+              </DelegateArgumentValue>
+            </InArgument>
+          </p3:GenerativeExtractor.DocumentBounds>
+          <p3:GenerativeExtractor.DocumentObjectModel>
+            <InArgument x:TypeArguments="p5:Document">
+              <DelegateArgumentValue x:TypeArguments="p5:Document">
+                <DelegateInArgument x:TypeArguments="p5:Document" Name="DocumentObjectModel" />
+              </DelegateArgumentValue>
+            </InArgument>
+          </p3:GenerativeExtractor.DocumentObjectModel>
+          <p3:GenerativeExtractor.DocumentPath>
+            <InArgument x:TypeArguments="x:String">
+              <DelegateArgumentValue x:TypeArguments="x:String">
+                <DelegateInArgument x:TypeArguments="x:String" Name="DocumentPath" />
+              </DelegateArgumentValue>
+            </InArgument>
+          </p3:GenerativeExtractor.DocumentPath>
+          <p3:GenerativeExtractor.DocumentText>
+            <InArgument x:TypeArguments="x:String">
+              <DelegateArgumentValue x:TypeArguments="x:String">
+                <DelegateInArgument x:TypeArguments="x:String" Name="DocumentText" />
+              </DelegateArgumentValue>
+            </InArgument>
+          </p3:GenerativeExtractor.DocumentText>
+          <p3:GenerativeExtractor.ExtractorDocumentType>
+            <InArgument x:TypeArguments="p6:ExtractorDocumentType">
+              <DelegateArgumentValue x:TypeArguments="p6:ExtractorDocumentType">
+                <DelegateInArgument x:TypeArguments="p6:ExtractorDocumentType" Name="ExtractorDocumentType" />
+              </DelegateArgumentValue>
+            </InArgument>
+          </p3:GenerativeExtractor.ExtractorDocumentType>
+          <p3:GenerativeExtractor.ExtractorResult>
+            <OutArgument x:TypeArguments="p6:ExtractorResult">
+              <DelegateArgumentReference x:TypeArguments="p6:ExtractorResult">
+                <DelegateOutArgument x:TypeArguments="p6:ExtractorResult" Name="ExtractorResult" />
+              </DelegateArgumentReference>
+            </OutArgument>
+          </p3:GenerativeExtractor.ExtractorResult>
+          <p3:GenerativeExtractor.PredictionId>
+            <InArgument x:TypeArguments="x:String">
+              <DelegateArgumentValue x:TypeArguments="x:String">
+                <DelegateInArgument x:TypeArguments="x:String" Name="PredictionId" />
+              </DelegateArgumentValue>
+            </InArgument>
+          </p3:GenerativeExtractor.PredictionId>
+        </p3:GenerativeExtractor>
+      </p2:DataExtractionScope.Extractors>
+    </p2:DataExtractionScope>
+    <p2:ExportExtractionResults DataSet="[Dataset]" DisplayName="Export Extraction Results" ExtractionResult="[ExtractedResults]" sap:VirtualizedContainerService.HintSize="479,174" sap2010:WorkflowViewState.IdRef="ExportExtractionResults_1" IncludeConfidence="False" IncludeOCRConfidence="False" />
+    <ui:GetValue ContinueOnError="{x:Null}" DisplayName="Get Text 'P'" sap:VirtualizedContainerService.HintSize="479,107" sap2010:WorkflowViewState.IdRef="GetValue_1">
+      <ui:GetValue.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="4f6191b0-a781-459c-995e-b2ffe54588c5" InformativeScreenshot="c10d279317df96d527bf39e28580c68a" Selector="&lt;html app='chrome.exe' title='ACME System 1 - Work Items' /&gt;&lt;webctrl tag='P' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:GetValue.Target>
+      <ui:GetValue.Value>
+        <OutArgument x:TypeArguments="x:String">[Text]</OutArgument>
+      </ui:GetValue.Value>
+    </ui:GetValue>
+    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="479,488" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+      <ui:MultipleAssign.AssignOperations>
+        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="sd2:DataTable">[Item]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="sd2:DataTable">[Dataset.Tables.Item("Simple Fields")]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_VendorName]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Vendor Name").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_InvoiceID]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Invoice ID").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_Address]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Address").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_TaxID]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Tax ID").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_6">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_City]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("City").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_7">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_Country]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Country").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_8">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_TaxAmount]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Tax Amount").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_9">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_UntaxedAmount]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Untaxed Amount").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_10">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_Date]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Date").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_11">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_TotalAmount]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Total Amount").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_12">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_Currency]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Text.Substring(Text.IndexOf("Currency: ") + "Currency: ".Length).Trim]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_13">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[out_ItemDescription]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Item.Rows(0)("Item Description").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+        </scg:List>
+      </ui:MultipleAssign.AssignOperations>
+    </ui:MultipleAssign>
+  </Sequence>
+</Activity>
